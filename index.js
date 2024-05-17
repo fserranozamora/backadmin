@@ -14,7 +14,6 @@ app.use("/api/usuarios", require("./routes/usuarios"));
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/clientes", require("./routes/clientes"));
 app.use("/api/productos", require("./routes/productos"));
-app.use("/api/proveedores", require("./routes/proveedores"));
 
 app.listen(PORT, () => {
     console.log("El servidor está conectado");

@@ -3,7 +3,7 @@ const Producto = require('../models/Producto');
 exports.agregarProductos = async(req, res) => {
 
     try {
-        let productos = new Productos(req.body)
+        let productos = new Producto(req.body)
         await productos.save();
         res.send(productos);
     } catch (error) {
@@ -15,7 +15,7 @@ exports.agregarProductos = async(req, res) => {
 exports.mostrarProductos = async(req, res) => {
 
     try {
-        let productos = await Productos.find();
+        let productos = await Producto.find();
         res.json(productos);
     } catch (error) {
         console.log(error)
@@ -66,7 +66,7 @@ return
         producto.precio_total=precio_total;
 
         producto = await Producto.findOneAndUpdate({_id: req.params.id}, producto, {new:true});
-        res.json(cliente);
+        res.json(producto);
     }catch (error){
 console.log(error)
 res.status(500).send('Hubo un error al actualizar el producto');

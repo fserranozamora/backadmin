@@ -1,22 +1,22 @@
 const mongoose = require('mongoose');
 
 const clienteSchema = mongoose.Schema({
-    nombres: {
+    nombre: {
         type: String,
         required: true
     },
 
-    apellidos: {
+    apellido: {
         type: String,
         required: true
     },
 
-    cedula: {
+    documento: {
         type: Number,
         required: true
     },
 
-    correo: {
+    email: {
         type: String,
         required: true
     },
