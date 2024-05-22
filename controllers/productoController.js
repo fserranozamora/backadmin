@@ -60,7 +60,7 @@ exports.modificarProducto = async(req, res) => {
 res.status(404).json({msg: "El cliente no existe"});
 return
         }
-        producto.nombre=nombre;
+        producto.nombre_producto=nombre;
         producto.unidades=unidades;
         producto.precio_unitario=precio_unitario;
         producto.precio_total=precio_total;
