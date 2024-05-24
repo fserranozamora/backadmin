@@ -4,7 +4,7 @@ const { validationResult } = require ("express-validator");
 const jwt = require ("jsonwebtoken");
 
 exports.crearUsuario= async (req,res) =>{
-    // revisar si tenemos  errores
+    // revisar si hay errores
 
     const errores = validationResult(req);
     if(!errores.isEmpty()){
@@ -12,23 +12,23 @@ exports.crearUsuario= async (req,res) =>{
     }
 
     const{ email, password} = req.body;
-try {
-        //se verifica que el usuario registrado sea unico
+    try {
+        //verificar que el usuario registrado sea unico
         let usuario = await Usuario.findOne({ email });
         if(usuario){
-            return res.status(400).json({ msg: "El usuario ya existe"})
+            return res.status(400).json({ msg: " el usuario ya existe"})
         }
-        // crear el nuevo usuario
+        // crear un nuevo usuario
         usuario = new Usuario(req.body);
 
         usuario.password = await bcryptjs.hash(password, 8);
-        // guardamos el usuario
+        // guardar el usuario
         await usuario.save();
 
       
-        // si todo ok, se firma el token
+        // se firma el token si está correcto
        const payload ={
-usuario: {id: usuario.id},
+        usuario: {id: usuario.id},
        };
 
        jwt.sign(

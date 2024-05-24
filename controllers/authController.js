@@ -1,53 +1,63 @@
 const Usuario = require("../models/Usuario");
-const bcrypyjs = require("bcryptjs");
-const { validationResult } = require("express-validator");
-const jwt = require("jsonwebtoken");
+const bcryptjs = require ("bcryptjs");
+const {validationResult} = require ("express-validator");
+const jwt = require ("jsonwebtoken");
 
-exports.autenticarusuario = async (req, res) => {
+exports.autenticarusuario = async (req,res) => {
+    // revisar si hay errores
+
     const errores = validationResult(req);
-    if (!errores.isEmpty()) {
-        return res.status(400).json({ errores: errores.array() });
+    if(!errores.isEmpty()){
+        return res.status(400).json({errores: errores.array()});
     }
-
-    const { email, password } = req.body;
+    
+    const { email, password} = req.body;
 
     try {
-        let usuario = await usuario.findOne({ email });
-        if (!usuario) {
-            return res.status(400).json({ msg: "El ususrio no está registrado" });
+        // verificar si tenemos un usuario registrado
+        let usuario = await Usuario.findOne({ email});
+        if(!usuario){
+            return res.status(400).json({msg: "el usuario no esta registrado"})
         }
-        const passCorrecto = await bcrypyjs.compare(password, usuario.password);
-        if (!passCorrecto) {
-            return res.status(400).json({ msg: "La contraseña es incorrecta" });
-        }
+     // revisar el password
+      const passCorrecto = await bcryptjs.compare(password,usuario.password);
+      if(!passCorrecto){
+        return res.status(400).json({mng:"la contrasena es incorrecta"});
 
-        const payload = {
-            usuario: { id: usuario.id },
-        };
+      }
+      // si todo está bien si se firma el token
 
-        jwt.sign(
-            payload,
-            process.env.SECRETA,
-            {
-                expiresIn: 43200,
-            },
-            (error, token) => {
-                if (error) throw error;
-                res.json({ token });
-            }
-        );
-    } catch (error) {
-        console.log("Hubo un error");
+      const payload ={
+        usuario:{id: usuario.id},
+
+      };
+      jwt.sign( 
+      payload,
+      process.env.SECRETA,
+      {
+        expiresIn: 43200,// una hora
+      },
+      (error,token) =>{
+        if(error) throw error;
+        //mensaje de confirmacion
+        res.json({token});
+
+     }
+
+    );
+    } catch (error){
+        console.log("hubo un error");
         console.log(error);
-        res.status(400).send("Hubo un error")
+        res.status(400).send("hubo un error");
     }
-}
+};
 
-exports.usuarioAutenticado = async (req, res) => {
-    try{
-        const usuario = await Usuario.findById(req.usuario.id);
+exports.usuarioAutenticado =async (req,res) =>{
+    try {
+        const usuario= await Usuario.findById(req.usuario.id);
         res.json({usuario});
     } catch (error) {
-        res.status(400).json({msg: "Hubo un error"});
+        res.status(400).json({msg: "hubo un error"});
     }
+
 }
