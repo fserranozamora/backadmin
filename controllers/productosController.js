@@ -66,7 +66,7 @@ exports.eliminarProductos = async (req, res) => {
 }
 
 
-// Funcion para actualizar los datos de un cliente
+// Funcion para actualizar los datos de un producto
 
 exports.modificarProducto = async (req, res) => {
     try {
@@ -89,27 +89,39 @@ exports.modificarProducto = async (req, res) => {
 
 //esta funcion es para actualizar los datos de un producto
 
-exports.actualizarCliente = async(req, res) => {
+/*exports.modificarProductos = async (req, res) => {
+    try {
+        let producto = await Producto.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        if(!producto) {
+            return res.status(404).send('Producto no encontrado')
+        }
+        res.json(producto)
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Hubo un error al modificar el productos')
+    }
+} */
+
+exports.actualizarProducto = async (req, res) => {
     try {
         const {nombre_producto, unidades, precio_unitario, precio_total} = req.body
         let producto = await Producto.findById(req.params.id);
 
-        if(!producto){
-            res.status(404).json({msg: 'El producto no existe'});
+        if(!producto) {
+            res.status(404).json({msg: 'El cliente no existe'});
             return
         }
-            producto.nombre_producto = nombre_producto;
-            producto.unidades = unidades;
-            producto.precio_unitario = precio_unitario;
-            producto.precio_total = precio_total;
-            
-
-            producto =await Producto.findOneAndUpdate({_id: req.params.id}, producto,{new:true});
+        producto.nombre_producto = nombre_producto;
+        producto.unidades = unidades;
+        producto.precio_unitario = precio_unitario;
+        producto.precio_total= precio_total;
+           
+            producto = await Producto.findOneAndUpdate({_id: req.params.id}, producto,{new: true});
             res.json(producto);
 
-    } catch (error) {
-        console.log(error)
-        res.status(500).send('hubo un error al actualizar un producto');
+    } catch (err) {
+        console.log(err)
+        res.status(500).send('Hubo un error al actualizar el producto');
     }
 
 }
