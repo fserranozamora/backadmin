@@ -10,7 +10,6 @@ exports.agregarProductos = async (req, res) => {
         await producto.save();
         res.json(producto);
 
-
     } catch (error) {
         console.log(error);
         res.status(500).send('Hubo un error al agregar un producto')
