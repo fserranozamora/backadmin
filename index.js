@@ -2,6 +2,7 @@ const express = require("express");
 const ConectarBD = require("./config/db");
 const cors = require ("cors");
 
+
 // servidor
 const app = express();
 //configuración del puerto
