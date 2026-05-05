@@ -4,17 +4,20 @@ const Cliente = require('../models/Cliente');
 // función agregar clientes
 
 exports.agregarClientes = async(req, res) => {
-
     try {
-        let clientes = new Cliente(req.body)
+        // 1. Definimos la variable 'clientes' correctamente
+        let clientes = new Cliente(req.body); 
+        
+        // 2. Guardamos y enviamos la respuesta
         await clientes.save();
         res.send(clientes);
 
     } catch (err) {
-        console.log(err)
-        res.status(500).send('Hubo un error al agregar un cliente')
+        console.log(err);
+        res.status(500).send('Hubo un error al agregar un cliente');
     }
 }
+
 
 // funcion mostrar clientes
 
